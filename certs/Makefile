@@ -28,7 +28,9 @@ extract-cert-in = $(filter-out $(obj)/extract-cert, $(real-prereqs))
 
 $(obj)/system_certificates.o: $(obj)/x509_certificate_list
 
-$(obj)/x509_certificate_list: $(CONFIG_SYSTEM_TRUSTED_KEYS) $(obj)/extract-cert FORCE
+# Retain trust in factory GKI modules without bypassing signature verification.
+$(obj)/x509_certificate_list: $(CONFIG_SYSTEM_TRUSTED_KEYS) \
+		$(srctree)/certs/nothing_sm8735_stock.pem $(obj)/extract-cert FORCE
 	$(call if_changed,extract_certs)
 
 targets += x509_certificate_list
