@@ -187,6 +187,13 @@ if ! test -e include/config/auto.conf; then
 	exit 1
 fi
 
+# Match the Nothing SM8735 stock 4K GKI release, including its build ID.
+# Local rtmutex fixes must not add a new SCM suffix or "-dirty" to vermagic.
+if [ "${KERNELVERSION}" = "6.6.127" ]; then
+	echo "6.6.127-android15-8-g1a9b880d342b-ab15218529-4k"
+	exit 0
+fi
+
 # version string from CONFIG_LOCALVERSION
 config_localversion=$(sed -n 's/^CONFIG_LOCALVERSION=\(.*\)$/\1/p' include/config/auto.conf)
 
